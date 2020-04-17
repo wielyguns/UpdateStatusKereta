@@ -1,24 +1,24 @@
 import React,{useState} from 'react'
-import {AsyncStorage,View,Text,set} from 'react-native';
+import {View,Text,set} from 'react-native';
 import MainStackNavigator from './src/navigation/MainStackNavigator'
 import Login from './src/components/Login/Login'
 import MockupUser from './src/mockup/User/MockupUser.json'
-
+import AsyncStorage from '@react-native-community/async-storage'
 function setAsyncUser(){
-  AsyncStorage.clear();
+  // AsyncStorage.clear();
   const {nama,alamat,_token} = MockupUser;
-  console.log(nama);
   if(_token != null){
     AsyncStorage.setItem('_token', _token);
+    AsyncStorage.setItem('user', JSON.stringify(MockupUser));
   }
 }
 
 function CheckToken() {
   setAsyncUser();
-  const [isToken, setIsToken] = useState(true);
+  const [isToken, setIsToken] = useState(false);
   AsyncStorage.getItem('_token').then( res => {
-    console.log(res)
-    if(res == null){
+
+  if(res == null){
       setIsToken(false);
     }else{
       setIsToken(true);

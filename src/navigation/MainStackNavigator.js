@@ -8,9 +8,19 @@ const Stack = createStackNavigator()
 
 function MainStackNavigator() {
   return (
-    <NavigationContainer initialRouteName='Dashboard'>
+    <NavigationContainer initialRouteName='JPM KERETA'>
       <Stack.Navigator>
-        <Stack.Screen name='Dashboard' component={Dashboard}  />
+        < Stack.Screen
+          name = "JPM KERETA"
+          component = {
+            Dashboard
+          }
+          options={{
+            headerTintColor: 'white',
+            headerStyle: { backgroundColor: 'tomato' },
+            headerTitleAlign : "center"
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

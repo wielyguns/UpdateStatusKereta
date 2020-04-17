@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AsyncStorage, Button, Text, TextInput, View,StyleSheet,Image } from 'react-native';
+import { AsyncStorage, Button, Text, TextInput, View,StyleSheet,Image,ToastAndroid } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Dashboard from '../Dashboard/Dashboard'
@@ -9,8 +9,11 @@ const AuthContext = React.createContext();
 
 function SplashScreen() {
   return (
-    <View>
-      <Text>Loading...</Text>
+    <View style={styles.SplashScreen}>
+      <Image
+        source={require('../../assets/image/pp.jpg')}
+        style={{ width: 200, height: 200 }}
+      />
     </View>
   );
 }
@@ -52,7 +55,6 @@ function SignInScreen() {
 }
 
 const Stack = createStackNavigator();
-
 export default function App({ navigation }) {
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
@@ -84,6 +86,16 @@ export default function App({ navigation }) {
     }
   );
 
+  const showToastWithGravityAndOffset = (param) => {
+    ToastAndroid.showWithGravityAndOffset(
+      param,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER,
+      25,
+      50
+    );
+  };
+
   React.useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
@@ -94,7 +106,6 @@ export default function App({ navigation }) {
       } catch (e) {
         // Restoring token failed
       }
-      console.log('teasdasdass');
       // After restoring token, we may need to validate it in production apps
 
       // This will switch to the App screen or Auth screen and this loading
@@ -112,8 +123,17 @@ export default function App({ navigation }) {
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `AsyncStorage`
         // In the example, we'll use a dummy token
-
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+        if(data.username == '' || data.password == ''){
+          return showToastWithGravityAndOffset("Username Dan Password Harus Diisi");
+        }
+        
+        if(MockupUser.username == data.username && MockupUser.password == data.password){
+          MockupUser._token = 'dummy-auth-token';
+          AsyncStorage.setItem('user', JSON.stringify(MockupUser));
+          dispatch({ type: 'SIGN_IN', token: MockupUser._token });
+        }else{
+          return showToastWithGravityAndOffset("Username Atau Password Yang Anda Masukan Salah !");
+        }
       },
       signOut: () => dispatch({ type: 'SIGN_OUT' }),
       signUp: async data => {
@@ -148,7 +168,17 @@ export default function App({ navigation }) {
             />
           ) : (
             // User is signed in
-            <Stack.Screen name="Dashboard" component={Dashboard} />
+            < Stack.Screen
+              name = "JPM KERETA"
+              component = {
+                Dashboard
+              }
+              options={{
+                headerTintColor: 'white',
+                headerStyle: { backgroundColor: 'tomato' },
+                headerTitleAlign : "center"
+              }}
+            />
           )}
         </Stack.Navigator>
       </NavigationContainer>
@@ -175,6 +205,14 @@ const styles = StyleSheet.create({
   logo:{
     alignItems:'center',
     justifyContent: 'center',
+  },
+  SplashScreen:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems:'center',
+    backgroundColor: '#fff',
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   textLogo:{
     fontWeight: 'bold',

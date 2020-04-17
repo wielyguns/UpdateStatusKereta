@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button, StyleSheet,Image } from 'react-native';
+import { View, Text, Button, StyleSheet,Image, AsyncStorage, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createDrawerNavigator,
@@ -7,6 +7,8 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
+
+
 
 function GambarUser(){
   return (
@@ -18,16 +20,33 @@ function GambarUser(){
 }
 
 function Feed({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <View style={styles.boxSaldo}>
-        <GambarUser/>
-        <View style={styles.textDataAgen}>
-
+  const [user, setUser] = React.useState(null);
+  AsyncStorage.getItem('user').then( res => {
+    setUser(JSON.parse(res));
+  });
+  if(user != null){
+    return (
+      <View style={styles.container}>
+        <View style={styles.boxSaldo}>
+          <GambarUser/>
+          <View style={styles.textContainerBoxSaldo}>
+            <Text style={styles.textDataAgen} >{user.nama}</Text>
+            <Text style={styles.textDataAgenAlamat} >{user.alamat}</Text>
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }else{
+    return (
+      <View style={styles.container}>
+        <View style={styles.boxSaldo}>
+          <GambarUser/>
+          <View style={styles.textContainerBoxSaldo}>
+          </View>
+        </View>
+      </View>
+    );
+  }
 }
 
 function Notifications() {
@@ -91,7 +110,8 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   boxSaldo:{
-    justifyContent: 'space-between',
+    justifyContent:'space-between',
+    flexDirection: 'row',
     borderTopLeftRadius:10,
     borderBottomLeftRadius:10,
     backgroundColor: '#fff',
@@ -125,6 +145,18 @@ const styles = StyleSheet.create({
     textAlign:'right',
     color:'white',
     fontSize: 30,
+    fontWeight: "bold"
+  },
+  textDataAgenAlamat:{
+    textAlign:'right',
+    color:'white',
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+  textContainerBoxSaldo:{
+    paddingRight:5,
+    paddingTop:5,
+    width:250
   }
 });
 
