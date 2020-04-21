@@ -51,12 +51,6 @@ function Feed({ navigation }) {
   }
 }
 
-function StatusUpdate() {
-  return (
-    <UpdateStatus></UpdateStatus>
-  );
-}
-
 function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
@@ -84,7 +78,7 @@ function MyDrawer() {
                 name={Platform.OS === 'android' ? 'home' : 'ios-list'}></Icon>
         }}/>
 
-      <Drawer.Screen name="Update Status" component={StatusUpdate} options={{
+      <Drawer.Screen name="UpdateStatus" component={UpdateStatus} options={{
             drawerIcon: config => <Icon
                 size={23}
                 name={Platform.OS === 'android' ? 'truck' : 'ios-list'}></Icon>
