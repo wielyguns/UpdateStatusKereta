@@ -11,7 +11,7 @@ class UpdateStatus extends Component {
   render() {
     return (
       <View>
-        <Text> UpdateStatus </Text>
+        <Text> tes </Text>
       </View>
     );
   }

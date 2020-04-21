@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Button, StyleSheet,Image, AsyncStorage, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -8,6 +9,8 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Login from '../Login/Login'
+import UpdateStatus from '../UpdateStatus/UpdateStatus'
 
 
 function GambarUser(){
@@ -49,11 +52,9 @@ function Feed({ navigation }) {
   }
 }
 
-function Notifications() {
+function StatusUpdate() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Notifications Screen</Text>
-    </View>
+    <UpdateStatus></UpdateStatus>
   );
 }
 
@@ -74,7 +75,7 @@ function CustomDrawerContent(props) {
 }
 
 const Drawer = createDrawerNavigator();
-
+const Stack = createStackNavigator();
 function MyDrawer() {
   return (
     <Drawer.Navigator initialRouteName="Dashboard" drawerContent={props => <CustomDrawerContent {...props} />}>
@@ -83,8 +84,30 @@ function MyDrawer() {
                 size={23}
                 name={Platform.OS === 'android' ? 'home' : 'ios-list'}></Icon>
         }}/>
-      <Drawer.Screen name="Notifications" component={Notifications} />
+
+      <Drawer.Screen name="Update Status" component={StatusUpdate} options={{
+            drawerIcon: config => <Icon
+                size={23}
+                name={Platform.OS === 'android' ? 'truck' : 'ios-list'}></Icon>
+        }} />
+      <Drawer.Screen name="Logout" component={Logout} options={{
+            drawerIcon: config => <Icon
+                size={23}
+                name={Platform.OS === 'android' ? 'power-off' : 'ios-list'}></Icon>
+        }} />
     </Drawer.Navigator>
+  );
+}
+
+function Logout() {
+  console.log('tes')
+
+  return (
+    <NavigationContainer independent={true}>
+      <Stack.Navigator headerMode="none">
+        <Stack.Screen name="Logout" component={Login} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
