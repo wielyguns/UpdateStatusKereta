@@ -42,12 +42,14 @@ function SignInScreen() {
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
+        autoCapitalize = 'none'
       />
       <TextInput
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        autoCapitalize = 'none'
       />
       <Button title="Sign in" onPress={() => signIn({ username, password })} />
     </View>
