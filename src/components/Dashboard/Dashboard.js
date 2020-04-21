@@ -12,7 +12,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Login from '../Login/Login'
 import UpdateStatus from '../UpdateStatus/UpdateStatus'
 
-
 function GambarUser(){
   return (
     <Image
@@ -94,14 +93,18 @@ function MyDrawer() {
             drawerIcon: config => <Icon
                 size={23}
                 name={Platform.OS === 'android' ? 'power-off' : 'ios-list'}></Icon>
-        }} />
+        }} onPress={() => setIsStarted(true)}/>
     </Drawer.Navigator>
   );
 }
 
 function Logout() {
-  console.log('tes')
+  
 
+  React.useEffect(() => {
+    // AsyncStorage.clear();
+  },[]);
+  
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator headerMode="none">

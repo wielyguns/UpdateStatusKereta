@@ -9,7 +9,7 @@ const Stack = createStackNavigator()
 function MainStackNavigator() {
   return (
     <NavigationContainer initialRouteName='JPM KERETA'>
-      <Stack.Navigator>
+      <Stack.Navigator headerMode="none">
         < Stack.Screen
           name = "JPM KERETA"
           component = {
